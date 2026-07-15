@@ -9,6 +9,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database import Base
 from app.models.user import User
+from app.models.calculation import Calculation
 
 TEST_DATABASE_URL = os.getenv(
     "TEST_DATABASE_URL",
@@ -16,7 +17,17 @@ TEST_DATABASE_URL = os.getenv(
 )
 
 engine = create_engine(TEST_DATABASE_URL)
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+TestingSessionLocal = sessionmaker(
+
+    autocommit=False,
+
+    autoflush=False,
+
+    bind=engine,
+
+    join_transaction_mode="create_savepoint",
+
+)
 
 
 @pytest.fixture(scope="session", autouse=True)

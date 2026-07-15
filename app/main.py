@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app.database import get_db, Base, engine
 from app.models.user import User
+from app.models.calculation import Calculation
 from app.schemas.user import UserCreate, UserRead
 from app.security import hash_password
 
