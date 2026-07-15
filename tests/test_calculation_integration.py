@@ -153,3 +153,30 @@ def test_calculation_persists_correct_data_across_operations(db_session):
 
         assert calc.result == expected
 
+
+def test_calculation_repr_contains_key_fields(db_session):
+
+    """__repr__ should include id, a, b, type, and result for easy debugging."""
+
+    user = _make_user(db_session)
+
+    calc = Calculation(a=2, b=3, type="Add", user_id=user.id)
+
+    calc.result = calc.compute_result()
+
+    db_session.add(calc)
+
+    db_session.commit()
+
+    db_session.refresh(calc)
+
+    repr_str = repr(calc)
+
+    assert "Calculation" in repr_str
+
+    assert str(calc.id) in repr_str
+
+    assert "Add" in repr_str
+
+    assert "5" in repr_str  # the computed result
+
